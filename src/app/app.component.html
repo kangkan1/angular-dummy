@@ -1,0 +1,78 @@
+
+
+<div class="container">
+
+  <div *ngIf="items.length === 0; then noItems else showItems">
+  </div>
+  <ng-template #noItems>
+    <h3>No items to display</h3>
+  </ng-template>
+  <ng-template template #showItems>
+    <ul *ngIf="items.length > 0">
+      <li *ngFor="let item of items">
+        <label class="form-check-label" [style.color]="item.isComplete ? 'green':'red'">
+          <input class="checkbox" type="checkbox" [checked]="item.isComplete">
+          {{item.val}}
+        </label>
+      </li>
+    </ul>
+  </ng-template>
+  <hr style="color: black;"/>
+  <ul *ngIf="items.length > 0">
+    <li *ngFor="let item of items">
+      <label class="form-check-label" [style.color]="item.isComplete ? 'green':'red'">
+        <input class="checkbox" 
+        type="checkbox" 
+        [value]="item.val"
+        [checked]="item.isComplete"
+        (click)="checkBoxClick(item)"
+        >
+        {{item.val}}
+      </label>
+    </li>
+  </ul>
+
+  <hr style="color: black;">
+  <form class="row mt-3 gx-3 gy-2 align-items-center justify-content-center">
+    <div class="col-6">
+      <label class="visually-hiddenn" for="items">Add Items</label>
+      <input type="text" class="form-control" 
+      id="items" name="items"
+      [(ngModel)]="newItemText"
+      >
+      <label class="visually-hiddenn" for="isComplete">Is Complete?</label>
+      <input
+      type="checkbox"
+      id="subscribeNews"
+      name="subscribe"
+      [(ngModel)]="isCompleted"
+      value=1 />
+    </div>
+    <div class="col-6">
+      <select 
+      class="form-select"
+      [(ngModel)]="listFilter"
+      (ngModelChange)="filterChanged($event)"
+      name="listFilter"
+      >
+      <option selected>Select</option>
+      <option value="1">Completed</option>
+      <option value="0">Incomplete</option>
+      </select>
+    </div>
+    <div class="col-auto">
+      <button 
+        type="submit" 
+        class="btn btn-primary"
+        (click)="$event.preventDefault(); addNewItems()"
+        >Submit</button>
+    </div>
+  </form>
+
+    
+</div>
+
+
+
+
+<router-outlet />
